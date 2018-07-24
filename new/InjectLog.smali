@@ -13,36 +13,56 @@
     return-void
 .end method
 
-.method public static PrintFunc()V
-    .locals 6
+.method public static printFunc()V
+    .locals 7
 
     .line 7
-    const-string v0, "InjectLog"
-
-    const-string v1, "InjectLogByNull\n"
-
-    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
-
-    .line 8
     invoke-static {}, Ljava/lang/Thread;->currentThread()Ljava/lang/Thread;
 
     move-result-object v0
 
-    .line 9
-    .local v0, thread:Ljava/lang/Thread;
+    .line 8
+    .local v0, "thread":Ljava/lang/Thread;
     invoke-virtual {v0}, Ljava/lang/Thread;->getStackTrace()[Ljava/lang/StackTraceElement;
 
     move-result-object v1
 
+    .line 9
+    .local v1, "stackTraceElement":[Ljava/lang/StackTraceElement;
+    const-string v2, "InjectLog"
+
+    new-instance v3, Ljava/lang/StringBuilder;
+
+    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "InjectLogByNull\nThread:\t"
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v0}, Ljava/lang/Thread;->getId()J
+
+    move-result-wide v4
+
+    invoke-virtual {v3, v4, v5}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    const-string v4, "\n"
+
+    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-static {v2, v3}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
     .line 10
-    .local v1, stackTraceElement:[Ljava/lang/StackTraceElement;
     if-eqz v1, :cond_0
 
     .line 11
     const/4 v2, 0x0
 
     .line 11
-    .local v2, i:I
+    .local v2, "i":I
     :goto_0
     array-length v3, v1
 
@@ -55,7 +75,8 @@
 
     invoke-static {v3, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 13
+    .line 14
+    :try_start_0
     const-string v3, "InjectLog"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -78,7 +99,7 @@
 
     invoke-static {v3, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 14
+    .line 15
     const-string v3, "InjectLog"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -107,7 +128,7 @@
 
     invoke-static {v3, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 15
+    .line 16
     const-string v3, "InjectLog"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -136,7 +157,7 @@
 
     invoke-static {v3, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 16
+    .line 17
     const-string v3, "InjectLog"
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -164,8 +185,70 @@
     move-result-object v4
 
     invoke-static {v3, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 17
+    .line 21
+    goto :goto_1
+
+    .line 18
+    :catch_0
+    move-exception v3
+
+    .line 19
+    .local v3, "e":Ljava/lang/Exception;
+    const-string v4, "InjectLog"
+
+    new-instance v5, Ljava/lang/StringBuilder;
+
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v6, "\nId:\t"
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v5, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    const-string v6, "\n"
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-static {v4, v5}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 20
+    const-string v4, "InjectLog"
+
+    new-instance v5, Ljava/lang/StringBuilder;
+
+    invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v6, "\nError:\n"
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v3}, Ljava/lang/Exception;->toString()Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v6, "\n"
+
+    invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v5}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-static {v4, v5}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 22
+    .end local v3    # "e":Ljava/lang/Exception;
+    :goto_1
     const-string v3, "InjectLog"
 
     const-string v4, "=====================================\n"
@@ -177,8 +260,8 @@
 
     goto/16 :goto_0
 
-    .line 20
-    .end local v2           #i:I
+    .line 25
+    .end local v2    # "i":I
     :cond_0
     const-string v2, "InjectLog"
 
@@ -186,6 +269,6 @@
 
     invoke-static {v2, v3}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 21
+    .line 26
     return-void
 .end method
